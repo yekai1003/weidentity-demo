@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>weid-demo</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>weid-demo</name>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <!-- 使用新版 SDK -->
+        <weid-sdk.version>1.8.6-rc1</weid-sdk.version>
+        <web3sdk.version>2.6.6</web3sdk.version>
+    </properties>
+
+    <dependencies>
+        <!-- WeID SDK 核心依赖 -->
+        <dependency>
+            <groupId>com.webank</groupId>
+            <artifactId>weid-java-sdk</artifactId>
+            <version>${weid-sdk.version}</version>
+            <exclusions>
+                <!-- 排除冲突的日志实现 -->
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- FISCO BCOS 适配（已排除冲突依赖） -->
+        <dependency>
+            <groupId>org.fisco-bcos</groupId>
+            <artifactId>web3sdk</artifactId>
+            <version>${web3sdk.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.ethereum</groupId>
+                    <artifactId>solcJ-all</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>ch.qos.logback</groupId>
+                    <artifactId>logback-classic</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- 日志统一实现 -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.36</version>
+        </dependency>
+    </dependencies>
+
+    <!-- 仓库配置 -->
+    <repositories>
+        <!-- 阿里云镜像加速 -->
+        <repository>
+            <id>aliyun</id>
+            <url>https://maven.aliyun.com/repository/public</url>
+        </repository>
+        <!-- FISCO BCOS 官方仓库 -->
+        <repository>
+            <id>fisco-bcos</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+    </repositories>
+
+    <build>
+        <plugins>
+            <!-- 编译插件 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+
+            <!-- 打包可执行JAR -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.example.WeIdCreationExample</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
