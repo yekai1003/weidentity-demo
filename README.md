@@ -91,7 +91,7 @@ sdk.cert-path=/Users/yk/etc/conf这个地方经过测试，在这个sdk版本下
 
 
 
-weidentity.properties如下：
+weidentity.properties如下：需要提前部署weidentity合约，获取相应的合约地址。
 
 ```properties
 # FISCO BCOS 节点信息
