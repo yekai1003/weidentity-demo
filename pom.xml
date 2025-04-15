@@ -113,5 +113,13 @@
                 </executions>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include> <!-- 包含所有子文件夹 -->
+                </includes>
+            </resource>
+        </resources>
     </build>
 </project>

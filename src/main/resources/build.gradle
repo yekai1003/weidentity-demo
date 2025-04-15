@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+}
+
+dependencies {
+    implementation 'com.webank:weid-sdk:1.8.6-rc1'
+    implementation 'org.fisco-bcos:web3sdk:2.6.6'
+}
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+mainClassName = 'com.example.WeIdCreationExample'
+
+jar {
+    manifest {
+        attributes 'Main-Class': mainClassName
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = 'exclude'
+}
